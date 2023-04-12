@@ -1,0 +1,54 @@
+/*
+ * @Author: zhoushun 229591451@qq.com
+ * @Date: 2023-04-03 16:22:42
+ * @LastEditors: zhoushun 229591451@qq.com
+ * @LastEditTime: 2023-04-11 11:12:33
+ * @FilePath: \ruoyi-ui\src\utils\permission.js
+ * @Description:
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
+import store from '@/store'
+
+/**
+ * 字符权限校验
+ * @param {Array} value 校验值
+ * @returns {Boolean}
+ */
+export function checkPermi(value) {
+  if (value && value instanceof Array && value.length > 0) {
+    const permissions = store.getters && store.getters.permissions
+    const permissionDatas = value
+    const all_permission = '*:*:*'
+
+    const hasPermission = permissions.some(permission => {
+      return all_permission === permission || permissionDatas.includes(permission)
+    })
+
+    return hasPermission
+  } else {
+    console.error(`need roles! Like checkPermi="['system:user:add','system:user:edit']"`)
+    return false
+  }
+}
+
+/**
+ * 角色权限校验
+ * @param {Array} value 校验值
+ * @returns {Boolean}
+ */
+export function checkRole(value) {
+  if (value && value instanceof Array && value.length > 0) {
+    const roles = store.getters && store.getters.roles
+    const permissionRoles = value
+    const super_admin = 'admin'
+
+    const hasRole = roles.some(role => {
+      return super_admin === role || permissionRoles.includes(role)
+    })
+
+    return hasRole
+  } else {
+    console.error(`need roles! Like checkRole="['admin','editor']"`)
+    return false
+  }
+}

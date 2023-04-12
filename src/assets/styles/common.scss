@@ -1,0 +1,116 @@
+.pt-5 {
+	padding-top: 5px;
+}
+.pr-5 {
+	padding-right: 5px;
+}
+.pb-5 {
+	padding-bottom: 5px;
+}
+.mt-5 {
+	margin-top: 5px;
+}
+.mr-5 {
+	margin-right: 5px;
+}
+.mb-5 {
+	margin-bottom: 5px;
+}
+.mb-8 {
+	margin-bottom: 8px;
+}
+.ml-5 {
+	margin-left: 5px;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+.mr-10 {
+	margin-right: 10px;
+}
+.mb-10 {
+	margin-bottom: 10px;
+}
+.ml-10 {
+	margin-left: 10px;
+}
+.mt-20 {
+	margin-top: 20px;
+}
+.mr-20 {
+	margin-right: 20px;
+}
+.mb-20 {
+	margin-bottom: 20px;
+}
+.ml-20 {
+	margin-left: 20px;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+.text-center {
+  text-align: center
+}
+
+.text-navy {
+	color: #1ab394;
+}
+
+.text-primary {
+	color: inherit;
+}
+
+.text-success {
+	color: #1c84c6;
+}
+
+.text-info {
+	color: #23c6c8;
+}
+
+.text-warning {
+	color: #f8ac59;
+}
+
+.text-danger {
+	color: #ed5565;
+}
+
+.text-muted {
+	color: #888888;
+}
+
+.img-circle {
+	border-radius: 50%;
+}
+
+.img-lg {
+	width: 120px;
+	height: 120px;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
