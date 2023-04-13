@@ -2,7 +2,7 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-11 15:47:12
+ * @LastEditTime: 2023-04-13 15:03:45
  * @FilePath: \ruoyi-ui\src\main.js
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -28,6 +28,8 @@ import Element from 'element-ui'
 
 import '@/assets/styles/index.scss'
 
+// 分页组件
+import Pagination from '@/components/Pagination'
 // 自定义表格工具组件
 import RightToolbar from '@/components/RightToolbar'
 // 富文本组件
@@ -58,6 +60,7 @@ Vue.prototype.$handleTree = handleTree
 Vue.prototype.$exportFile = exportFile
 
 // 全局组件挂载
+Vue.component('Pagination', Pagination)
 Vue.component('DictTag', DictTag)
 Vue.component('RightToolbar', RightToolbar)
 Vue.component('Editor', Editor)

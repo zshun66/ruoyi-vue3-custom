@@ -2,7 +2,16 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 10:50:39
+ * @LastEditTime: 2023-04-13 14:59:08
+ * @FilePath: \ruoyi-ui\src\layout\index.vue
+ * @Description:
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+-->
+<!--
+ * @Author: zhoushun 229591451@qq.com
+ * @Date: 2023-04-03 16:22:42
+ * @LastEditors: zhoushun 229591451@qq.com
+ * @LastEditTime: 2023-04-13 14:10:16
  * @FilePath: \ruoyi-ui\src\layout\index.vue
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -13,7 +22,7 @@
     :class="classObj"
     :style="{ '--current-color': theme }"
   >
-		<!-- <Facade /> -->
+		<Facade />
     <div
 			class="drawer-bg"
       @click="handleClickOutside"
@@ -25,8 +34,16 @@
       :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }"
     >
       <div :class="{ 'fixed-header': fixedHeader }">
-        <navbar />
-        <tags-view v-if="needTagsView" />
+        <!-- <navbar /> -->
+				<div class="tags-view-wrap">
+					<hamburger
+						id="hamburger-container"
+						class="hamburger-container"
+						:is-active="sidebar.opened"
+						@toggleClick="toggleSideBar"
+					/>
+					<tags-view v-if="needTagsView" />
+				</div>
       </div>
       <app-main />
       <right-panel>
@@ -39,6 +56,7 @@
 <script>
 import { mapState } from 'vuex'
 import RightPanel from '@/components/RightPanel'
+import Hamburger from '@/components/Hamburger'
 import { Facade, AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import variables from '@/assets/styles/variables.scss'
@@ -47,6 +65,7 @@ export default {
   name: 'Layout',
   components: {
 		Facade,
+		Hamburger,
     AppMain,
     Navbar,
     RightPanel,
@@ -77,6 +96,9 @@ export default {
     },
   },
   methods: {
+		toggleSideBar() {
+      this.$store.dispatch('app/toggleSideBar')
+    },
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     },
@@ -129,5 +151,21 @@ export default {
 
 .mobile .fixed-header {
   width: 100%;
+}
+
+.tags-view-wrap {
+	height: 56px;
+	display: flex;
+	align-items: center;
+	background: #00c7ba26;
+	.hamburger-container {
+    height: 100%;
+		padding: 0 14px 0 10px;
+    line-height: 56px;
+    fill: #1890FF;
+    cursor: pointer;
+    transition: background 0.3s;
+    background-color: transparent;
+	}
 }
 </style>

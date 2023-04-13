@@ -2,7 +2,16 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-04 10:16:15
+ * @LastEditTime: 2023-04-13 12:37:00
+ * @FilePath: \ruoyi-ui\src\store\modules\user.js
+ * @Description:
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
+/*
+ * @Author: zhoushun 229591451@qq.com
+ * @Date: 2023-04-03 16:22:42
+ * @LastEditors: zhoushun 229591451@qq.com
+ * @LastEditTime: 2023-04-13 12:36:08
  * @FilePath: \ruoyi-ui\src\store\modules\user.js
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -13,15 +22,20 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 const user = {
   state: {
     token: getToken(),
+		nickName: '',
     name: '',
     avatar: '',
     roles: [],
-    permissions: []
+    permissions: [],
+		userInfo: {}
   },
 
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+		SET_NICKNAME: (state, nickName) => {
+      state.nickName = nickName
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -34,7 +48,10 @@ const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
-    }
+    },
+		SET_USERINFO: (state, userInfo) => {
+      state.userInfo = userInfo
+    },
   },
 
   actions: {
@@ -67,8 +84,10 @@ const user = {
           } else {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
+          commit('SET_NICKNAME', user.nickName)
           commit('SET_NAME', user.userName)
           commit('SET_AVATAR', avatar)
+					commit('SET_USERINFO', user)
           resolve(res)
         }).catch(error => {
           reject(error)

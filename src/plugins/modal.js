@@ -28,22 +28,7 @@ export default {
   msgWarning(content) {
     Message.warning(content)
   },
-  // 弹出提示
-  alert(content) {
-    MessageBox.alert(content, '系统提示')
-  },
-  // 错误提示
-  alertError(content) {
-    MessageBox.alert(content, '系统提示', { type: 'error' })
-  },
-  // 成功提示
-  alertSuccess(content) {
-    MessageBox.alert(content, '系统提示', { type: 'success' })
-  },
-  // 警告提示
-  alertWarning(content) {
-    MessageBox.alert(content, '系统提示', { type: 'warning' })
-  },
+
   // 通知提示
   notify(content) {
     Notification.info(content)
@@ -59,6 +44,23 @@ export default {
   // 警告通知
   notifyWarning(content) {
     Notification.warning(content)
+  },
+
+	// 弹出提示
+  alert(content) {
+    MessageBox.alert(content, '系统提示')
+  },
+  // 错误提示
+  alertError(content) {
+    MessageBox.alert(content, '系统提示', { type: 'error' })
+  },
+  // 成功提示
+  alertSuccess(content) {
+    MessageBox.alert(content, '系统提示', { type: 'success' })
+  },
+  // 警告提示
+  alertWarning(content) {
+    MessageBox.alert(content, '系统提示', { type: 'warning' })
   },
   // 确认窗体
   confirm(content) {
@@ -76,6 +78,7 @@ export default {
       type: 'warning',
     })
   },
+
   // 打开遮罩层
   loading(content) {
     loadingInstance = Loading.service({
