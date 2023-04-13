@@ -1,9 +1,19 @@
+<!--
+ * @Author: zhoushun 229591451@qq.com
+ * @Date: 2023-04-03 16:22:42
+ * @LastEditors: zhoushun 229591451@qq.com
+ * @LastEditTime: 2023-04-13 10:50:39
+ * @FilePath: \ruoyi-ui\src\layout\index.vue
+ * @Description:
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+-->
 <template>
   <div
     class="app-wrapper"
     :class="classObj"
     :style="{ '--current-color': theme }"
   >
+		<!-- <Facade /> -->
     <div
 			class="drawer-bg"
       @click="handleClickOutside"
@@ -27,15 +37,16 @@
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
+import RightPanel from '@/components/RightPanel'
+import { Facade, AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import ResizeMixin from './mixin/ResizeHandler'
 import variables from '@/assets/styles/variables.scss'
 
 export default {
   name: 'Layout',
   components: {
+		Facade,
     AppMain,
     Navbar,
     RightPanel,

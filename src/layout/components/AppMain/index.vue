@@ -2,8 +2,8 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-12 17:14:50
- * @FilePath: \ruoyi-ui\src\layout\components\AppMain.vue
+ * @LastEditTime: 2023-04-13 10:45:10
+ * @FilePath: \ruoyi-ui\src\layout\components\AppMain\index.vue
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
 -->
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import iframeToggle from "./IframeToggle/index"
+import iframeToggle from "../IframeToggle/index"
 
 export default {
   name: 'AppMain',
