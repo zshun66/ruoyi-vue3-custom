@@ -255,7 +255,7 @@ export default {
       background: #fff;
       font-size: 14px;
 			border-radius: 200px;
-      padding: 7px 15px 7px 15px;
+      padding: 9px 15px 9px 15px;
 			margin-left: 10px;
       cursor: pointer;
       &:first-of-type {

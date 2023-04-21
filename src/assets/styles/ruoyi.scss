@@ -63,5 +63,12 @@
 }
 
 .page-container {
+	width: 100%;
+	min-height: 100%;
   padding: 10px 10px;
+	box-sizing: border-box;
+}
+
+.component-container {
+
 }

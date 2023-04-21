@@ -46,3 +46,10 @@ export function getCodeImg() {
 }
 ```
 
+```js
+使用的字典
+性别：sys_user_sex
+有无：other_diseases
+档案状态、个案状态、在册状态、在册情况：wv_archives_status
+```
+

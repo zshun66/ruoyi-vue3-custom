@@ -2,7 +2,7 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-11 17:04:18
+ * @LastEditTime: 2023-04-21 09:54:05
  * @FilePath: \ruoyi-ui\src\api\login.js
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -51,10 +51,18 @@ export function register(data) {
   })
 }
 
-// 获取用户详细信息
+// 获取登录用户的详细信息
 export function getInfo() {
   return request({
     url: '/getInfo',
+    method: 'get'
+  })
+}
+
+// 获取登录用户的路由信息
+export const getRouters = () => {
+  return request({
+    url: '/getRouters',
     method: 'get'
   })
 }

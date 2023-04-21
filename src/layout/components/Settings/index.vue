@@ -8,7 +8,7 @@
           </div>
           <div class="setting-drawer-block-checbox">
             <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-dark')">
-              <img src="@/assets/images/dark.svg" alt="dark">
+              <img src="@/assets/svg/dark.svg" alt="dark">
               <div v-if="sideTheme === 'theme-dark'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
                 <i aria-label="图标: check" class="anticon anticon-check">
                   <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class="">
@@ -18,7 +18,7 @@
               </div>
             </div>
             <div class="setting-drawer-block-checbox-item" @click="handleTheme('theme-light')">
-              <img src="@/assets/images/light.svg" alt="light">
+              <img src="@/assets/svg/light.svg" alt="light">
               <div v-if="sideTheme === 'theme-light'" class="setting-drawer-block-checbox-selectIcon" style="display: block;">
                 <i aria-label="图标: check" class="anticon anticon-check">
                   <svg viewBox="64 64 896 896" data-icon="check" width="1em" height="1em" :fill="theme" aria-hidden="true" focusable="false" class="">
@@ -38,7 +38,7 @@
         <el-divider/>
 
         <h3 class="drawer-title">系统布局配置</h3>
-      
+
         <div class="drawer-item">
           <span>开启 TopNav</span>
           <el-switch v-model="topNav" class="drawer-switch" />

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-/* Layout */
 import Layout from '@/layout'
 
 Vue.use(Router)
@@ -41,7 +40,7 @@ export const constantRoutes = [
     hidden: true
   },
 	{
-    path: '',
+    path: '/',
     component: Layout,
     redirect: 'index',
     children: [
@@ -52,6 +51,12 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'home-fill', affix: true }
       }
     ]
+  },
+	{
+    path: '/registrationdesk',
+		component: () => import('@/views/registrationdesk/registrationdesk'),
+    hidden: true,
+    meta: { title: '登记台' }
   },
 	{
     path: '/user',

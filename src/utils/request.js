@@ -20,8 +20,8 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // 是否需要设置token(默认需要)
   const isToken = config.headers.token === undefined ? true : config.headers.token
-	// 是否清除空字符串字段(默认需要)
-	const isCleanEmpty = config.headers.cleanEmpty === undefined ? true : config.headers.cleanEmpty
+	// 是否清除空字符串字段(默认不需要)
+	const isCleanEmpty = config.headers.cleanEmpty === undefined ? false : config.headers.cleanEmpty
 	// 是否需要防止数据重复提交(默认需要)
   const isRepeatSubmit = config.headers.repeatSubmit === undefined ? true : config.headers.repeatSubmit
 
@@ -95,6 +95,10 @@ service.interceptors.response.use(res => {
 				isRelogin.show = false
 			})
 		}
+		if (isAlertErrorMsg) {
+			Message({ type: 'error', message: '无效的会话，或者会话已过期，请重新登录。' })
+			return undefined
+		}
 		return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
 	} else if (code === 500) {
 		if (isAlertErrorMsg) {
@@ -114,7 +118,7 @@ service.interceptors.response.use(res => {
 }, error => {
 	let { message } = error
 	if (message == 'Network Error') {
-		message = '后端接口连接异常'
+		message = '系统接口连接异常'
 	} else if (message.includes('timeout')) {
 		message = '系统接口请求超时'
 	} else if (message.includes('Request failed with status code')) {

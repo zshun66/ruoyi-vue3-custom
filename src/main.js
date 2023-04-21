@@ -2,7 +2,7 @@
  * @Author: zhoushun 229591451@qq.com
  * @Date: 2023-04-03 16:22:42
  * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 15:03:45
+ * @LastEditTime: 2023-04-21 14:18:15
  * @FilePath: \ruoyi-ui\src\main.js
  * @Description:
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -79,9 +79,11 @@ Vue.use(Element, {
 
 Vue.config.productionTip = false
 
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 })
+
+Vue.prototype.$bus = app
