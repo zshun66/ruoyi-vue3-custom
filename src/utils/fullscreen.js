@@ -10,7 +10,9 @@
  *  @param {Function}     isFullscreenByEl	判断指定元素是否处于全屏
  *  @param {Function}     request						进入全屏，参数：(element: 变为全屏的元素，默认为HTML根元素, options: 全屏配置)，返回 Promise<resolve>
  *  @param {Function}     exit					 		退出全屏，仅返回 Promise<resolve>
- *  @param {Function}     toggle        		切换全屏，参数：(element: 变为全屏的元素，仅切换为全屏时生效, options: 全屏配置，仅切换为全屏时生效)，返回 Promise<resolve>
+ *  @param {Function}     toggle        		切换元素全屏，参数：(element: 变为全屏的元素，仅切换为全屏时生效, options: 全屏配置，仅切换为全屏时生效)，返回 Promise<resolve>
+ *  @param {Function}     toggleBogus       伪视觉元素切换全屏，参数：(element: 变为全屏的元素，仅切换为全屏时生效, { enterStyle: 进入全屏时样式, exitStyle: 退出全屏时样式 },
+ * 																					options: 全屏配置，仅切换为全屏时生效)，返回 Promise<resolve>
  *  @param {Function}     onchange      		全屏状态改变时的操作 (仅可赋值更改)
  *  @param {Function}     onerror       		全屏改变时返回错误的操作 (仅可赋值更改)
  */
