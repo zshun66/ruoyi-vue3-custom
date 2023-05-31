@@ -37,31 +37,31 @@ export default {
 			functionsList: [
 				{
           title: '登记台',
-          icon: require('@/assets/svg/djt.svg'),
+          icon: new URL('@/assets/svg/djt.svg', import.meta.url).href,
           iconBgColor: '#008CFF',
           path: '/registrationdesk',
         },
         {
           title: '接种台',
-          icon: require('@/assets/svg/jzt.svg'),
+          icon: new URL('@/assets/svg/jzt.svg', import.meta.url).href,
           iconBgColor: '#00FFEE',
           path: '/vaccinationStation',
         },
         {
           title: '预约接种',
-          icon: require('@/assets/svg/yyjz.svg'),
+          icon: new URL('@/assets/svg/yyjz.svg', import.meta.url).href,
           iconBgColor: '#26FF00',
           path: '/adultVaccinationStation',
         },
         {
           title: '产科接种管理',
-          icon: require('@/assets/svg/ckjz.svg'),
+          icon: new URL('@/assets/svg/ckjz.svg', import.meta.url).href,
           iconBgColor: '#FF0000',
           path: '/obstetricvaccination',
         },
         {
           title: '接种查验',
-          icon: require('@/assets/svg/jzcy.svg'),
+          icon: new URL('@/assets/svg/jzcy.svg', import.meta.url).href,
           iconBgColor: '#FFAA00',
           path: '/checkInoculate',
         },

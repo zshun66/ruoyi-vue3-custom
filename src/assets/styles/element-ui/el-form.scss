@@ -1,0 +1,18 @@
+.el-form {
+	.el-form-item {
+		.el-form-item__label {
+			font-weight: 600;
+		}
+	}
+}
+
+.el-form.el-form--inline {
+	.el-form-item {
+		margin-right: 10px;
+		margin-bottom: 18px;
+
+		.el-form-item__label {
+			padding: 0 10px 0 0;
+		}
+	}
+}

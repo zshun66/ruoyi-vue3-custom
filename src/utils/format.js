@@ -3,7 +3,7 @@
  * @param {*} time 需要格式化的时间
  * @param {*} format 时间格式(YYYY-MM-DD HH:mm:ss WW)
  */
-export function formatTime(time, format = 'YYYY-MM-DD HH:mm:ss') {
+export function formatTime(time, format = 'YYYY-MM-DD') {
 	if (time === undefined || time === null || time === '') {
 		return ''
 	}

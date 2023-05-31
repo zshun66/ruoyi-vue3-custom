@@ -1,40 +1,23 @@
-<!--
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 14:59:08
- * @FilePath: \ruoyi-ui\src\layout\index.vue
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
--->
-<!--
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 14:10:16
- * @FilePath: \ruoyi-ui\src\layout\index.vue
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
--->
 <template>
   <div
-    class="app-wrapper"
-    :class="classObj"
+		class="app-wrapper"
+		:class="classObj"
     :style="{ '--current-color': theme }"
   >
 		<Facade />
     <div
-			class="drawer-bg"
+      v-if="device === 'mobile' && sidebar.opened"
+      class="drawer-bg"
       @click="handleClickOutside"
-      v-if="device === 'mobile' && sidebar.opened">
-		</div>
-    <sidebar v-if="!sidebar.hide" />
+    />
+    <sidebar v-if="!sidebar.hide" class="sidebar-container" />
     <div
-      class="main-container"
+			class="main-container"
       :class="{ hasTagsView: needTagsView, sidebarHide: sidebar.hide }"
     >
       <div :class="{ 'fixed-header': fixedHeader }">
-        <!-- <navbar /> -->
+        <!-- <navbar @setLayout="setLayout" /> -->
+        <!-- <tags-view v-if="needTagsView" /> -->
 				<div class="tags-view-wrap">
 					<hamburger
 						id="hamburger-container"
@@ -46,75 +29,73 @@
 				</div>
       </div>
       <app-main />
-      <right-panel>
-        <settings />
-      </right-panel>
+      <settings ref="settingRef" />
     </div>
   </div>
 </template>
 
-<script>
-import { mapState } from 'vuex'
-import RightPanel from '@/components/RightPanel'
+<script setup>
+import Sidebar from './components/Sidebar/index.vue'
+import { Facade, AppMain, Navbar, Settings, TagsView } from './components'
 import Hamburger from '@/components/Hamburger'
-import { Facade, AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
-import variables from '@/assets/styles/variables.scss'
+import { useWindowSize } from '@vueuse/core'
+import useAppStore from '@/store/modules/app'
+import useSettingsStore from '@/store/modules/settings'
 
-export default {
-  name: 'Layout',
-  components: {
-		Facade,
-		Hamburger,
-    AppMain,
-    Navbar,
-    RightPanel,
-    Settings,
-    Sidebar,
-    TagsView,
-  },
-  mixins: [ResizeMixin],
-  computed: {
-    ...mapState({
-      theme: (state) => state.settings.theme,
-      sideTheme: (state) => state.settings.sideTheme,
-      sidebar: (state) => state.app.sidebar,
-      device: (state) => state.app.device,
-      needTagsView: (state) => state.settings.tagsView,
-      fixedHeader: (state) => state.settings.fixedHeader,
-    }),
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile',
-      }
-    },
-    variables() {
-      return variables
-    },
-  },
-  methods: {
-		toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    },
-  },
+const appStore = useAppStore()
+const settingsStore = useSettingsStore()
+
+const sidebar = computed(() => appStore.sidebar)
+const device = computed(() => appStore.device)
+
+const theme = computed(() => settingsStore.theme)
+const needTagsView = computed(() => settingsStore.tagsView)
+const fixedHeader = computed(() => settingsStore.fixedHeader)
+
+const classObj = computed(() => ({
+  hideSidebar: !sidebar.value.opened,
+  openSidebar: sidebar.value.opened,
+  withoutAnimation: sidebar.value.withoutAnimation,
+  mobile: device.value === 'mobile',
+}))
+
+const { width, height } = useWindowSize()
+const WIDTH = 992
+
+watchEffect(() => {
+  if (device.value === 'mobile' && sidebar.value.opened) {
+    useAppStore().closeSideBar({ withoutAnimation: false })
+  }
+  if (width.value - 1 < WIDTH) {
+    useAppStore().toggleDevice('mobile')
+    useAppStore().closeSideBar({ withoutAnimation: true })
+  } else {
+    useAppStore().toggleDevice('desktop')
+  }
+})
+
+function toggleSideBar() {
+	appStore.toggleSideBar()
+}
+function handleClickOutside() {
+  useAppStore().closeSideBar({ withoutAnimation: false })
+}
+
+const settingRef = ref(null)
+function setLayout() {
+  settingRef.value.openSetting()
 }
 </script>
 
 <style lang="scss" scoped>
-@import "~@/assets/styles/mixin.scss";
-@import "~@/assets/styles/variables.scss";
+@import "@/assets/styles/mixin.scss";
+@import "@/assets/styles/variables.module.scss";
 
 .app-wrapper {
   @include clearfix;
+  position: relative;
   height: 100%;
   width: 100%;
-  position: relative;
 
   &.mobile.openSidebar {
     position: fixed;

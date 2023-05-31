@@ -1,32 +1,29 @@
-/*
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-21 14:18:15
- * @FilePath: \ruoyi-ui\src\main.js
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-import Vue from 'vue'
+import { createApp } from 'vue'
 import Cookies from 'js-cookie'
+import ElementPlus from 'element-plus'
+import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
+
+import '@/assets/styles/index.scss'
+
 import App from './App'
-import store from './store'
 import router from './router'
+import './router/permission'
+import store from './store'
 import directive from './directive'
 import plugins from './plugins'
 
-import './router/permission'
+import 'virtual:svg-icons-register'
+import SvgIcon from '@/components/SvgIcon'
+import elementIcons from '@/components/SvgIcon/svgicon'
 
-import { getDicts } from '@/api/system/dict/data'
+import systemConfig from '@/config/config'
 import { getConfigKey } from '@/api/system/config'
-import { formatTime, formatTimeToAgeYM, formatTimeToDiff } from '@/utils/format'
-import { resetForm, addDateRange, selectDictLabel, handleTree } from '@/utils/ruoyi'
+import { useDict } from '@/utils/dict'
+import { checkPermi } from '@/utils/power'
 import { exportFile } from '@/utils/request'
-
-import './assets/icons'
-import Element from 'element-ui'
-
-import '@/assets/styles/index.scss'
+import { formatTime, formatTimeToAgeYM, formatTimeToDiff } from '@/utils/format'
+import { resetForm, addDateRange, selectDictLabel, handleTree, mergeTableRow } from '@/utils/ruoyi'
+import mitt from '@/utils/mitt'
 
 // 分页组件
 import Pagination from '@/components/Pagination'
@@ -40,50 +37,56 @@ import FileUpload from '@/components/FileUpload'
 import ImageUpload from '@/components/ImageUpload'
 // 图片预览组件
 import ImagePreview from '@/components/ImagePreview'
+// 自定义树选择组件
+import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
-// 头部标签组件
-import VueMeta from 'vue-meta'
-// 字典数据组件
-import DictData from '@/components/DictData'
+// 二次封装日期选择器组件
+import CusElDatePicker from '@/mycomponents/CusElDatePicker/CusElDatePicker'
+
+
+const app = createApp(App)
 
 // 全局方法挂载
-Vue.prototype.$getDicts = getDicts
-Vue.prototype.$getConfigKey = getConfigKey
-Vue.prototype.$formatTime = formatTime
-Vue.prototype.$formatTimeToAgeYM = formatTimeToAgeYM
-Vue.prototype.$formatTimeToDiff = formatTimeToDiff
-Vue.prototype.$resetForm = resetForm
-Vue.prototype.$addDateRange = addDateRange
-Vue.prototype.$selectDictLabel = selectDictLabel
-Vue.prototype.$handleTree = handleTree
-Vue.prototype.$exportFile = exportFile
+app.config.globalProperties.$systemConfig = systemConfig
+app.config.globalProperties.$getConfigKey = getConfigKey
+app.config.globalProperties.$useDict = useDict
+app.config.globalProperties.$checkPermi = checkPermi
+app.config.globalProperties.$exportFile = exportFile
+app.config.globalProperties.$formatTime = formatTime
+app.config.globalProperties.$formatTimeToAgeYM = formatTimeToAgeYM
+app.config.globalProperties.$formatTimeToDiff = formatTimeToDiff
+app.config.globalProperties.$resetForm = resetForm
+app.config.globalProperties.$addDateRange = addDateRange
+app.config.globalProperties.$selectDictLabel = selectDictLabel
+app.config.globalProperties.$handleTree = handleTree
+app.config.globalProperties.$mergeTableRow = mergeTableRow
+app.config.globalProperties.$mitt = mitt
 
 // 全局组件挂载
-Vue.component('Pagination', Pagination)
-Vue.component('DictTag', DictTag)
-Vue.component('RightToolbar', RightToolbar)
-Vue.component('Editor', Editor)
-Vue.component('FileUpload', FileUpload)
-Vue.component('ImageUpload', ImageUpload)
-Vue.component('ImagePreview', ImagePreview)
+app.component('DictTag', DictTag)
+app.component('Pagination', Pagination)
+app.component('TreeSelect', TreeSelect)
+app.component('FileUpload', FileUpload)
+app.component('ImageUpload', ImageUpload)
+app.component('ImagePreview', ImagePreview)
+app.component('RightToolbar', RightToolbar)
+app.component('Editor', Editor)
+app.component('CusElDatePicker', CusElDatePicker)
 
-Vue.use(directive)
-Vue.use(plugins)
-Vue.use(VueMeta)
-DictData.install()
+app.use(router)
+app.use(store)
+app.use(directive)
+app.use(plugins)
+app.use(elementIcons)
+app.component('svg-icon', SvgIcon)
 
-Vue.use(Element, {
-  size: Cookies.get('size') || 'small'
+app.use(ElementPlus, {
+	locale: locale,
+	// 支持 large、default、small
+	size: Cookies.get('size') || 'default'
 })
 
-Vue.config.productionTip = false
+app.mount('#app')
 
-const app = new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
-
-Vue.prototype.$bus = app
+console.log(import.meta.env)

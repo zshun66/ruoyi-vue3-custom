@@ -1,19 +1,21 @@
-.el-button--cyan.is-active,
-.el-button--cyan:active {
-  background: #20B2AA;
-  border-color: #20B2AA;
-  color: #FFFFFF;
+.el-button--small.is-link {
+	font-size: 14px !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
 }
-
-.el-button--cyan:focus,
-.el-button--cyan:hover {
-  background: #48D1CC;
-  border-color: #48D1CC;
-  color: #FFFFFF;
+.el-button--default.is-link {
+	font-size: 16px !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
 }
-
-.el-button--cyan {
-  background-color: #20B2AA;
-  border-color: #20B2AA;
-  color: #FFFFFF;
+.el-button--large.is-link {
+	font-size: 18px !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+.el-button--primary.is-plain:hover,
+.el-button--primary.is-plain:focus {
+	color: #1890ff !important;
+	background: #e8f4ff !important;
+	border-color: #a3d3ff !important;
 }

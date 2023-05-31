@@ -1,13 +1,8 @@
-/*
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-12 17:26:56
- * @FilePath: \ruoyi-ui\src\config\settings.js
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-module.exports = {
+export default {
+	/**
+	 * 网站标题
+	 */
+	title: '智慧预防接种门诊系统',
   /**
    * 侧边栏主题 深色主题theme-dark，浅色主题theme-light
    */
@@ -46,7 +41,7 @@ module.exports = {
   /**
    * 是否显示动态标题
    */
-  dynamicTitle: false,
+  dynamicTitle: true,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']

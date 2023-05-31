@@ -47,9 +47,12 @@ export function selectDictLabel(datas = [], value, valueField = 'value', labelFi
 	if (!Array.isArray(datas)) {
 		return value
 	}
+
+	if (!Array.isArray(value)) {
+		value = [value]
+	}
 	let labels = []
-	let values = Array.from(value)
-	values.forEach(value => {
+	value.forEach(value => {
 		let findRes = datas.find(item => item[valueField] == value)
 		if (findRes) {
 			labels.push(findRes[labelField])
@@ -59,26 +62,6 @@ export function selectDictLabel(datas = [], value, valueField = 'value', labelFi
 	})
 
 	return labels.join(',')
-}
-
-/**
- * 数据合并
- * @param {*} source
- * @param {*} target
- */
-export function mergeRecursive(source, target) {
-	for (var p in target) {
-		try {
-			if (target[p].constructor == Object) {
-				source[p] = mergeRecursive(source[p], target[p])
-			} else {
-				source[p] = target[p]
-			}
-		} catch (e) {
-			source[p] = target[p]
-		}
-	}
-	return source
 }
 
 /**
@@ -187,6 +170,22 @@ export function tansData(data, isCleanEmpty) {
 }
 
 /**
+ * 返回项目路径
+ * @param {*} p
+ * @returns
+ */
+export function getNormalPath(p) {
+  if (p.length === 0 || !p || p == 'undefined') {
+    return p
+  }
+  let res = p.replace('//', '/')
+  if (res[res.length - 1] === '/') {
+    return res.slice(0, res.length - 1)
+  }
+  return res
+}
+
+/**
  * 验证是否为blob格式
  * @param {*} data
  */
@@ -198,5 +197,45 @@ export async function blobValidate(data) {
 		return false
 	} catch (error) {
 		return true
+	}
+}
+
+/**
+ * 合并表格行
+ * @param {*} e element表格合并方法回调参数
+ * @param {*} tableList 表格数据
+ * @param {*} identifyKey 识别键名
+ */
+export function mergeTableRow(e, tableList, identifyKey) {
+	const { row, column, rowIndex, columnIndex } = e
+	let spanArr = []
+	let pos = 0
+	tableList.forEach((row, index) => {
+		if (index === 0) {
+			// 如果是第一条记录（即索引是0的时候），向数组中加入１
+			spanArr.push(1)
+			pos = 0
+		} else {
+			if (
+				tableList[index][identifyKey] ===
+				tableList[index - 1][identifyKey]
+			) {
+				// 如果categoryVaccineName相等就累加，并且push 0
+				spanArr[pos] += 1
+				spanArr.push(0)
+			} else {
+				// 不相等push 1
+				spanArr.push(1)
+				pos = index
+			}
+		}
+	})
+	if (columnIndex === 0) {
+		const _row = spanArr[rowIndex]
+		const _col = _row > 0 ? 1 : 0 // 如果被合并了row = 0; 则他这个列需要取消
+		return {
+			rowspan: _row,
+			colspan: _col,
+		}
 	}
 }

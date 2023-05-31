@@ -1,17 +1,18 @@
 .el-dialog {
-  transform: none;
-  left: 0;
-  position: relative;
-  margin: 0 auto;
+	border-radius: 5px !important;
 }
 
 .el-dialog:not(.is-fullscreen) {
-	margin-top: 6vh !important;
+	margin-top: 5vh !important;
 }
 
-.el-dialog__wrapper.scrollbar .el-dialog .el-dialog__body {
-	overflow: auto;
+.el-dialog .el-dialog__header {
+	padding: 18px 15px 10px;
+}
+
+.el-dialog .el-dialog__body {
 	overflow-x: hidden;
-	max-height: 70vh;
-	padding: 10px 20px 0;
+	overflow-y: auto;
+	max-height: 78vh;
+	padding: 10px 15px;
 }

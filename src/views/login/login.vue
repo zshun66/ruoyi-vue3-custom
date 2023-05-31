@@ -14,7 +14,9 @@
           auto-complete="off"
           placeholder="账号"
         >
-					<svg-icon class="input-prefix-icon" slot="prefix" icon-class="people2" />
+					<template #prefix>
+						<svg-icon class="input-prefix-icon" icon-class="people2" />
+					</template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -23,10 +25,14 @@
           :type="passwordInputType"
           auto-complete="off"
           placeholder="密码"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter="handleLogin"
         >
-					<svg-icon class="input-prefix-icon" slot="prefix" icon-class="password" />
-					<svg-icon class="eye-suffix-icon" slot="suffix" :icon-class="passwordSuffixIcon" @click="handlePasswordSuffixIcon" />
+					<template #prefix>
+						<svg-icon class="input-prefix-icon" icon-class="password" />
+					</template>
+					<template #suffix>
+						<svg-icon class="eye-suffix-icon" :icon-class="passwordSuffixIcon" @click="handlePasswordSuffixIcon" />
+					</template>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
@@ -35,9 +41,11 @@
           v-model="loginForm.code"
           auto-complete="off"
           placeholder="验证码"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter="handleLogin"
         >
-					<svg-icon class="input-prefix-icon" slot="prefix" icon-class="validCode" />
+					<template #prefix>
+						<svg-icon class="input-prefix-icon" icon-class="validCode" />
+					</template>
         </el-input>
         <div class="captcha-box">
           <img :src="captchaUrl" @click="getCaptcha" />
@@ -51,7 +59,7 @@
 				class="login-btn"
 				:loading="loading"
 				type="primary"
-				@click.native.prevent="handleLogin"
+				@click.prevent="handleLogin"
 			>
 				<span>{{ loading ? '登 录 中...' : '登 录' }}</span>
 			</el-button>
@@ -60,6 +68,7 @@
 </template>
 
 <script>
+import useUserStore from '@/store/modules/user'
 import { getCodeImg } from '@/api/login'
 import Cookies from 'js-cookie'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
@@ -145,7 +154,9 @@ export default {
 				Cookies.remove('password')
 				Cookies.remove('rememberMe')
 			}
-			this.$store.dispatch('Login', this.loginForm).then(() => {
+			const userStore = useUserStore()
+
+			userStore.Login(this.loginForm).then(() => {
 				this.$router.push({ path: this.redirect || '/' })
 			}).catch(() => {
 				this.loading = false
@@ -198,7 +209,7 @@ export default {
 		.input-prefix-icon {
 			font-size: 30px;
 			color: #00C7BA;
-			margin-left: -5px;
+			margin-right: 20px;
 		}
 		.eye-suffix-icon {
 			font-size: 24px;
@@ -225,17 +236,17 @@ export default {
 			align-items: center;
 			justify-content: space-between;
 			.forget-checkbox {
-				::v-deep .el-checkbox__inner:hover {
+				:deep(.el-checkbox__inner:hover) {
 					border-color: #00C7BA;
 				}
-				::v-deep .el-checkbox__input.is-checked .el-checkbox__inner {
+				:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
 					background-color: #00C7BA;
 					border-color: #00C7BA;
 				}
-				::v-deep .el-checkbox__input.is-focus .el-checkbox__inner {
+				:deep(.el-checkbox__input.is-focus .el-checkbox__inner) {
 					border-color: #00C7BA;
 				}
-				::v-deep .el-checkbox__label {
+				:deep(.el-checkbox__label) {
 					color: #00C7BA;
 				}
 			}
@@ -253,15 +264,18 @@ export default {
 			border: none;
 		}
 
-		::v-deep .el-form-item {
+		:deep(.el-form-item) {
 			margin-top: 40px;
 			margin-bottom: 0px;
 		}
-		::v-deep .el-input input {
-			border: none;
+		:deep(.el-input .el-input__wrapper) {
+			border-radius: 0px;
+			box-shadow: none;
 			border-bottom: 2px solid #00c7ba;
+			padding: 0px 0px;
+		}
+		:deep(.el-input input) {
 			border-radius: 0;
-			padding-left: 50px;
 			font-size: 20px;
 			height: 36px;
     	line-height: 36px;

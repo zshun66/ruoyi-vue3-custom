@@ -1,3 +1,39 @@
+<script setup name="TopHeader">
+	const { proxy } = getCurrentInstance()
+	const router = useRouter()
+	const emits = defineEmits(['on-search'])
+
+	// 档案基本信息
+	const archiveBaseInfo = inject('archiveBaseInfo', () => {})
+	// 搜索输入框内容
+	const searchInputContent = ref('36011100605319980808') // 362201199807072833 36011100605319980808
+
+	// 确认搜索
+	const handleConfirmSearch = function () {
+		if (!searchInputContent.value) {
+			return proxy.$message.warning('请先输入档案编码或身份证号进行查询')
+		}
+		emits('on-search', searchInputContent.value)
+	}
+	// 新增档案
+	const handleNewAddArchive = function () {
+		proxy.$mitt.emit('on-openSelectBirthDateDialog')
+		proxy.$mitt.emit('on-openEditChildArchiveDialog', { dialogType: 1 })
+	}
+	// 临时接种
+	const handleTemporaryInoculate = function () {
+
+	}
+	// 登记异常
+	const handleRegistrationAbnormal = function () {
+
+	}
+	// 退出登记台
+	const handleExit = function () {
+		router.push('/index')
+	}
+</script>
+
 <template>
 	<div class="component-container topheader-component">
 		<div class="left-wrap">
@@ -7,21 +43,20 @@
 				v-model.trim="searchInputContent"
 				placeholder="请输入档案编码或身份证号"
 				clearable
-				size="medium"
-				@keyup.enter.native="handleConfirmSearch"
+				@keyup.enter="handleConfirmSearch"
 			></el-input>
 
 			<div class="btns-wrap">
 				<div class="op-btn" @click="handleNewAddArchive">
-					<i class="btn-icon el-icon-document"></i>
+					<el-icon size="15px" color="#00C3B7"><DocumentAdd /></el-icon>
 					<span class="btn-text">档案新增</span>
 				</div>
 				<div class="op-btn" @click="handleTemporaryInoculate">
 					<svg-icon class="btn-icon" icon-class="needle" style="transform: scaleX(-1);" />
 					<span class="btn-text">临时接种</span>
 				</div>
-				<div class="op-btn" @click="handleRegistrationAbnormal">
-					<i class="btn-icon el-icon-edit-outline" style="color: #f00;"></i>
+				<div class="op-btn" @click="handleRegistrationAbnormal" v-if="archiveBaseInfo.id">
+					<el-icon size="15px" color="#f00"><Edit /></el-icon>
 					<span class="btn-text" style="color: #f00;">登记异常</span>
 				</div>
 			</div>
@@ -35,47 +70,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: 'TopHeader',
-	dicts: [],
-	components: {},
-	props: {},
-	data() {
-		return {
-			// 搜索输入框内容
-			searchInputContent: '',
-		}
-	},
-	created() {},
-	mounted() {},
-	methods: {
-		// 确认搜索
-		handleConfirmSearch() {
-			console.log(this.searchInputContent)
-		},
-		// 新增档案
-		handleNewAddArchive() {
-
-		},
-		// 临时接种
-		handleTemporaryInoculate() {
-
-		},
-		// 登记异常
-		handleRegistrationAbnormal() {
-
-		},
-		// 退出登记台
-		handleExit() {
-			this.$router.push('/')
-		}
-	},
-	computed: {},
-	watch: {},
-}
-</script>
-
 <style scoped lang="scss">
 .topheader-component {
 	width: 100%;
@@ -87,17 +81,21 @@ export default {
 	.left-wrap {
 		display: flex;
 		align-items: center;
-		::v-deep .search-input {
+		:deep(.search-input) {
 			width: 300px;
 		}
-		::v-deep .search-input input {
-			font-size: 14px;
+		:deep(.search-input .el-input__wrapper) {
+			font-size: 15px;
 			border-radius: 100px;
 			background: rgba(255, 255, 255, 0.7);
-			border: none;
+			box-shadow: none;
+			padding: 0px 15px;
+		}
+		:deep(.search-input .el-input__wrapper input) {
+			height: 36px;
 			color: #333;
 		}
-		::v-deep .search-input input::placeholder {
+		:deep(.search-input .el-input__wrapper input::placeholder) {
 			color: #333;
 		}
 
@@ -118,8 +116,8 @@ export default {
 				padding: 0 20px;
 				cursor: pointer;
 				.btn-icon {
-					fill: #00C3B7;
 					color: #00C3B7;
+					fill: #00C3B7;
 					font-size: 16px;
 				}
 				.btn-text {

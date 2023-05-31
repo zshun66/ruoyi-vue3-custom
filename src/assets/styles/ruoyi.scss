@@ -62,13 +62,47 @@
   }
 }
 
+
+
+// 滚动条样式
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: transparent;
+	border-radius: 4px;
+}
+
+:hover::-webkit-scrollbar-thumb {
+	background: hsla(0, 0%, 53%, 0.4);
+}
+
+:hover::-webkit-scrollbar-track {
+	background: hsla(0, 0%, 53%, 0.1);
+}
+
+// 针次圆圈样式
+.needle-circle {
+	display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid;
+  border-radius: 50%;
+  line-height: 18px;
+  text-align: center;
+}
+
+// 页面容器样式
 .page-container {
 	width: 100%;
 	min-height: 100%;
   padding: 10px 10px;
 	box-sizing: border-box;
 }
-
+// 组件容器样式
 .component-container {
 
 }

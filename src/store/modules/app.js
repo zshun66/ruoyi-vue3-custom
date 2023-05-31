@@ -1,66 +1,60 @@
 import Cookies from 'js-cookie'
 
-const state = {
-  sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false,
-    hide: false
-  },
-  device: 'desktop',
-  size: Cookies.get('size') || 'small'
-}
+const useAppStore = defineStore('app', {
+	state: () => ({
+		sidebar: {
+			// 侧边栏是否打开状态
+			opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+			// 侧边栏是否隐藏
+			hide: false,
+			// 侧边栏是否需要动画
+			withoutAnimation: false,
+		},
+		// 设备类型
+		device: 'desktop',
+		// 组件大小
+		size: Cookies.get('size') || 'default'
+	}),
+	actions: {
+		// 侧边栏打开/收缩状态切换
+		toggleSideBar(withoutAnimation) {
+			if (this.sidebar.hide) {
+				return false
+			}
+			this.sidebar.opened = !this.sidebar.opened
+			this.sidebar.withoutAnimation = withoutAnimation
+			if (this.sidebar.opened) {
+				Cookies.set('sidebarStatus', 1)
+			} else {
+				Cookies.set('sidebarStatus', 0)
+			}
+		},
+		// 打开侧边栏
+		openSideBar({ withoutAnimation }) {
+			Cookies.set('sidebarStatus', 1)
+			this.sidebar.opened = true
+			this.sidebar.withoutAnimation = withoutAnimation
+		},
+		// 收缩侧边栏
+		closeSideBar({ withoutAnimation }) {
+			Cookies.set('sidebarStatus', 0)
+			this.sidebar.opened = false
+			this.sidebar.withoutAnimation = withoutAnimation
+		},
+		// 隐藏侧边栏
+		toggleSideBarHide(status) {
+			this.sidebar.hide = status
+		},
+		// 切换设备类型
+		toggleDevice(device) {
+			this.device = device
+		},
+		// 设置组件大小
+		setSize(size) {
+			this.size = size
+			Cookies.set('size', size)
+		},
+	}
+})
 
-const mutations = {
-  TOGGLE_SIDEBAR: state => {
-    if (state.sidebar.hide) {
-      return false;
-    }
-    state.sidebar.opened = !state.sidebar.opened
-    state.sidebar.withoutAnimation = false
-    if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 1)
-    } else {
-      Cookies.set('sidebarStatus', 0)
-    }
-  },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', 0)
-    state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device
-  },
-  SET_SIZE: (state, size) => {
-    state.size = size
-    Cookies.set('size', size)
-  },
-  SET_SIDEBAR_HIDE: (state, status) => {
-    state.sidebar.hide = status
-  }
-}
-
-const actions = {
-  toggleSideBar({ commit }) {
-    commit('TOGGLE_SIDEBAR')
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
-  },
-  setSize({ commit }, size) {
-    commit('SET_SIZE', size)
-  },
-  toggleSideBarHide({ commit }, status) {
-    commit('SET_SIDEBAR_HIDE', status)
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default useAppStore

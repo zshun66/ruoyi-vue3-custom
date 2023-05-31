@@ -1,124 +1,71 @@
-/*
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 12:37:00
- * @FilePath: \ruoyi-ui\src\store\modules\user.js
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-/*
- * @Author: zhoushun 229591451@qq.com
- * @Date: 2023-04-03 16:22:42
- * @LastEditors: zhoushun 229591451@qq.com
- * @LastEditTime: 2023-04-13 12:36:08
- * @FilePath: \ruoyi-ui\src\store\modules\user.js
- * @Description:
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import defaultAvatar from '@/assets/images/profile.jpg'
 
-const user = {
-  state: {
-    token: getToken(),
+const useUserStore = defineStore('user', {
+	state: () => ({
+		token: getToken(),
+		userInfo: {},
 		nickName: '',
-    name: '',
-    avatar: '',
-    roles: [],
-    permissions: [],
-		userInfo: {}
-  },
+		name: '',
+		avatar: '',
+		roles: [],
+		permissions: []
+	}),
+	actions: {
+		// 登录
+		Login(form) {
+			const username = form.username.trim()
+			const password = form.password
+			const code = form.code
+			const uuid = form.uuid
+			return new Promise((resolve, reject) => {
+				login(username, password, code, uuid).then(res => {
+					setToken(res.token)
+					this.token = res.token
+					resolve(true)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		// 获取用户信息
+		GetInfo() {
+			return new Promise((resolve, reject) => {
+				getInfo().then(res => {
+					const user = res.user
+					const avatar = (user.avatar == '' || user.avatar == null) ? defaultAvatar : import.meta.env.VITE_APP_BASE_API + user.avatar
+					if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+						this.roles = res.roles
+						this.permissions = res.permissions
+					} else {
+						this.roles = ['ROLE_DEFAULT']
+					}
+					this.userInfo = user
+					this.nickName = user.nickName
+					this.name = user.userName
+					this.avatar = avatar
+					resolve(res)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		},
+		// 退出系统
+		LogOut() {
+			return new Promise((resolve, reject) => {
+				logout(this.token).then(() => {
+					this.token = ''
+					this.roles = []
+					this.permissions = []
+					removeToken()
+					resolve(true)
+				}).catch(error => {
+					reject(error)
+				})
+			})
+		}
+	}
+})
 
-  mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
-    },
-		SET_NICKNAME: (state, nickName) => {
-      state.nickName = nickName
-    },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
-    },
-    SET_PERMISSIONS: (state, permissions) => {
-      state.permissions = permissions
-    },
-		SET_USERINFO: (state, userInfo) => {
-      state.userInfo = userInfo
-    },
-  },
-
-  actions: {
-    // 登录
-    Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
-      const password = userInfo.password
-      const code = userInfo.code
-      const uuid = userInfo.uuid
-      return new Promise((resolve, reject) => {
-        login(username, password, code, uuid).then(res => {
-          setToken(res.token)
-          commit('SET_TOKEN', res.token)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-
-    // 获取用户信息
-    GetInfo({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getInfo().then(res => {
-          const user = res.user
-          const avatar = (user.avatar == '' || user.avatar == null) ? require('@/assets/images/profile.jpg') : process.env.VUE_APP_BASE_API + user.avatar
-          if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', res.roles)
-            commit('SET_PERMISSIONS', res.permissions)
-          } else {
-            commit('SET_ROLES', ['ROLE_DEFAULT'])
-          }
-          commit('SET_NICKNAME', user.nickName)
-          commit('SET_NAME', user.userName)
-          commit('SET_AVATAR', avatar)
-					commit('SET_USERINFO', user)
-          resolve(res)
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-
-    // 退出系统
-    LogOut({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          commit('SET_PERMISSIONS', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-
-    // 前端 登出
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
-      })
-    }
-  }
-}
-
-export default user
+export default useUserStore
