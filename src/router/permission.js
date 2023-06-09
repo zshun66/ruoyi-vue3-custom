@@ -1,7 +1,7 @@
 import router from '@/router/index'
 import { ElMessage } from 'element-plus'
-import { getToken } from '@/utils/auth'
-import { isHttp } from '@/utils/validate'
+import { getToken } from '@/utils/token'
+import { validHttp } from '@/utils/validate'
 import { isRelogin } from '@/utils/request'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
           usePermissionStore().generateRoutes().then(accessRoutes => {
             // 根据roles权限生成可访问的路由表
             accessRoutes.forEach(route => {
-              if (!isHttp(route.path)) {
+              if (!validHttp(route.path)) {
                 router.addRoute(route) // 动态添加可访问路由表
               }
             })

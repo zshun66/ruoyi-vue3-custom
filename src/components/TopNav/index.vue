@@ -30,7 +30,7 @@
 
 <script setup>
 import { constantRoutes } from "@/router"
-import { isHttp } from '@/utils/validate'
+import { validHttp } from '@/utils/validate'
 import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
@@ -78,7 +78,7 @@ const childrenMenus = computed(() => {
         if(router.path === "/") {
           router.children[item].path = "/" + router.children[item].path;
         } else {
-          if(!isHttp(router.children[item].path)) {
+          if(!validHttp(router.children[item].path)) {
             router.children[item].path = router.path + "/" + router.children[item].path;
           }
         }
@@ -116,7 +116,7 @@ function setVisibleNumber() {
 function handleSelect(key, keyPath) {
   currentIndex.value = key;
   const route = routers.value.find(item => item.path === key);
-  if (isHttp(key)) {
+  if (validHttp(key)) {
     // http(s):// 路径新窗口打开
     window.open(key, "_blank");
   } else if (!route || !route.children) {

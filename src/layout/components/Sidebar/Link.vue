@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { isExternal } from '@/utils/validate'
+import { validExternal } from '@/utils/validate'
 
 const props = defineProps({
 	to: {
@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const isExt = computed(() => {
-	return isExternal(props.to)
+	return validExternal(props.to)
 })
 
 const type = computed(() => {

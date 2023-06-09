@@ -224,18 +224,4 @@ Object.defineProperties(instance, {
 	}
 })
 
-setTimeout(() => {
-	instance.toggleBogus('.vaccine-record-container', {
-		enterStyle: {
-			position: 'fixed',
-			top: '0',
-			right: '0',
-			bottom: '0',
-			left: '0',
-			zIndex: '9',
-			borderRadius: '0px'
-		}
-	})
-}, 3000)
-
 export default instance

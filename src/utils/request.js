@@ -1,18 +1,28 @@
 import axios from 'axios'
 import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus'
-import { getToken } from '@/utils/auth'
-import errorCode from '@/utils/errorCode'
+import { getToken } from '@/utils/token'
 import { tansParams, tansData, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/modules/cache'
 import { saveAs } from 'file-saver'
 import useUserStore from '@/store/modules/user'
 
+// 错误码
+export let errorCode = {
+	'401': '认证失败，无法访问系统资源',
+  '403': '当前操作没有权限',
+  '404': '访问资源不存在',
+  'default': '系统未知错误，请反馈给管理员'
+}
+
 // 是否显示重新登录
 export let isRelogin = { show: false }
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+// 创建axios实例
 const service = axios.create({
 	baseURL: import.meta.env.VITE_APP_BASE_API,
+	headers: {
+		'Content-Type': 'application/json;charset=utf-8'
+	},
 	timeout: 10000
 })
 

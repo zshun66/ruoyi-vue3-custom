@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import { isExternal } from '@/utils/validate'
+import { validExternal } from '@/utils/validate'
 import AppLink from './Link'
 import { getNormalPath } from '@/utils/ruoyi'
 
@@ -108,10 +108,10 @@ function hasOneShowingChild(children = [], parent) {
 }
 
 function resolvePath(routePath, routeQuery) {
-	if (isExternal(routePath)) {
+	if (validExternal(routePath)) {
 		return routePath
 	}
-	if (isExternal(props.basePath)) {
+	if (validExternal(props.basePath)) {
 		return props.basePath
 	}
 	if (routeQuery) {

@@ -20,7 +20,7 @@
 <script setup>
 import Fuse from 'fuse.js'
 import { getNormalPath } from '@/utils/ruoyi'
-import { isHttp } from '@/utils/validate'
+import { validHttp } from '@/utils/validate'
 import usePermissionStore from '@/store/modules/permission'
 
 const search = ref('');
@@ -45,7 +45,7 @@ function close() {
 }
 function change(val) {
   const path = val.path;
-  if (isHttp(path)) {
+  if (validHttp(path)) {
     // http(s):// 路径新窗口打开
     const pindex = path.indexOf("http");
     window.open(path.substr(pindex, path.length), "_blank");
@@ -85,7 +85,7 @@ function generateRoutes(routes, basePath = '', prefixTitle = []) {
     if (r.hidden) { continue }
     const p = r.path.length > 0 && r.path[0] === '/' ? r.path : '/' + r.path;
     const data = {
-      path: !isHttp(r.path) ? getNormalPath(basePath + p) : r.path,
+      path: !validHttp(r.path) ? getNormalPath(basePath + p) : r.path,
       title: [...prefixTitle]
     }
 
